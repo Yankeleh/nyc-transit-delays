@@ -4,7 +4,7 @@
 Predicting transit delays in NYC using real-time transit data, weather conditions, and historical patterns to help commuters make informed travel decisions.
 
 
-## Projct Tracker:
+## Project Tracker:
 
 #### August 8, 2025
 
