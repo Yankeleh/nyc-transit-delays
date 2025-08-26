@@ -17,7 +17,7 @@ class WeatherDataCollector:
         self.api_key = os.getenv('OPENWEATHER_API_KEY')
         self.base_url = "http://api.openweathermap.org/data/2.5/weather"
         
-    def collect_current_weather(self, city="New York"):
+    def collect_current_weather(self, city='Brooklyn'):
         """Get current weather conditions"""
         
         params = {
@@ -70,7 +70,8 @@ class WeatherDataCollector:
         
         # Append to existing file or create new one
         if os.path.exists(filename):
-            df.write_csv(filename)
+            with open(f"{filename}", mode="ab") as f:
+                df.write_csv(f, include_header=False)
         else:
             df.write_csv(filename)
             
