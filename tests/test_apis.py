@@ -2,7 +2,10 @@ import requests
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
+
+
 
 def test_mta_api():
     """Test MTA API key"""
@@ -20,6 +23,7 @@ def test_mta_api():
     except Exception as e:
         print(f"❌ MTA API error: {e}")
         return False
+
 
 def test_weather_api():
     """Test OpenWeatherMap API key"""
