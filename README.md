@@ -18,23 +18,34 @@ Predicting transit delays in NYC using real-time transit data, weather condition
 **Next steps:**
 
 [ ] Build MTA real-time bus and train position collector
+
 [ ] Create historical delay data scrapper
+
 [ ] Set up weather data collection pipeline
+
 [ ] Implement traffic data ingestion (NYC DOT, Google Maps)
+
 [ ] Create holiday/event data collection
+
 [ ] Build data validation checks
 
 [ ] Initial analysis of delay patterns by time/route/weather
+
 [ ] Create summary statistics and distributions
+
 [ ] Build initial visualizations (delay heatmaps, time series)
+
 [ ] Identify data gaps and anomalies
 
 
 **Later:**
 
 [ ] Clean data
+
 [ ] Naive baseline and finer-tuned models
+
 [ ] Model validation
+
 [ ] Visualization
 
 **Maybe?**
