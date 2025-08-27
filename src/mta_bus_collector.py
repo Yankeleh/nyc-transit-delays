@@ -63,6 +63,8 @@ class MTABusDataCollector:
                     'delay_seconds': self._calculate_delay(vehicle)
                 }
 
+                buses.append(bus_info)
+
             return pl.DataFrame(buses)
 
         except KeyError as e:
