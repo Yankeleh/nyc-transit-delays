@@ -4,6 +4,22 @@
 Predicting transit delays in NYC using real-time transit data, weather conditions, and historical patterns to help commuters make informed travel decisions.
 
 
+## Getting Started
+
+To install the dependencies either use Conda
+
+```bash
+conda env create -f environment.yml
+conda activate transit-env
+```
+
+or pip
+
+```bash
+pip install -r requirements.txt
+```
+
+
 ## Project Tracker:
 
 #### August 8, 2025
