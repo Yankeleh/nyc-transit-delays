@@ -43,6 +43,23 @@ class MTAHistoricalProcessor:
             df = df.rename({col: col.lower().replace(' ', '_').replace('-', '_') 
                            for col in df.columns})
             
+            # Delete unwanted columns
+            columns_to_drop = ['division', 'total_apt', 'total_att', 'over_five_mins', 'over_five_mins_perc']
+            existing_cols_to_drop = [col for col in columns_to_drop if col in df.columns]
+            if existing_cols_to_drop:
+                df = df.drop(existing_cols_to_drop)
+
+            # Rename columns
+            rename_dict = {
+                'additional_platform_time': 'avg_additional_stop_time',
+                'additional_train_time': 'avg_additional_travel_time',
+                'line' : 'route_id'
+            }
+            # Only rename columns that exist
+            existing_renames = {old: new for old, new in rename_dict.items() if old in df.columns}
+            if existing_renames:
+                df = df.rename(existing_renames)
+
             # Find date column
             date_cols = [col for col in df.columns if any(keyword in col.lower() 
                         for keyword in ['date', 'month', 'period', 'beginning'])]
@@ -94,6 +111,24 @@ class MTAHistoricalProcessor:
             df = df.rename({col: col.lower().replace(' ', '_').replace('-', '_') 
                            for col in df.columns})
             
+            # Delete unwanted columns
+            columns_to_drop = ['borough', 'trip_type']
+            existing_cols_to_drop = [col for col in columns_to_drop if col in df.columns]
+            if existing_cols_to_drop:
+                df = df.drop(existing_cols_to_drop)
+
+            # Rename columns
+            rename_dict = {
+                'number_of_customers': 'num_passengers',
+                'additional_bus_stop_time': 'avg_additional_stop_time',
+                'additional_travel_time': 'avg_additional_travel_time'
+            }
+
+            # Only rename columns that exist
+            existing_renames = {old: new for old, new in rename_dict.items() if old in df.columns}
+            if existing_renames:
+                df = df.rename(existing_renames)
+            
             # Find date column
             date_cols = [col for col in df.columns if any(keyword in col.lower() 
                         for keyword in ['date', 'month', 'period', 'beginning'])]
@@ -132,8 +167,9 @@ class MTAHistoricalProcessor:
             print(f"❌ Error loading bus metrics: {e}")
             return None
     
+    """
     def load_daily_ridership(self, filepath):
-        """Load and process daily ridership data"""
+        #Load and process daily ridership data
         print("Loading daily ridership data...")
         
         try:
@@ -187,7 +223,7 @@ class MTAHistoricalProcessor:
             return None
     
     def aggregate_daily_to_monthly(self, daily_df):
-        """Aggregate daily ridership to monthly for consistency with other datasets"""
+        #Aggregate daily ridership to monthly for consistency with other datasets
         print("Aggregating daily data to monthly...")
         
         if daily_df is None or daily_df.shape[0] == 0:
@@ -222,7 +258,8 @@ class MTAHistoricalProcessor:
             pl.col('date').min().alias('date_min'),
             pl.col('date').max().alias('date_max'),
             pl.col('year').first().alias('year'),
-            pl.col('month').first().alias('month')
+            pl.col('month').first().alias('month'),
+            pl.col('year_month').first().alias('year_month')
         ])
         
         # Group by year_month and aggregate
@@ -238,6 +275,8 @@ class MTAHistoricalProcessor:
         print(f"   Created monthly aggregation: {monthly_agg.shape[0]} records")
         
         return monthly_agg
+        """
+    
     
     def create_master_dataset(self, subway_df=None, bus_df=None, ridership_df=None):
         """Combine all datasets into master analysis dataset"""
@@ -255,6 +294,7 @@ class MTAHistoricalProcessor:
             monthly_datasets.append(bus_df)
             print(f"   Added bus metrics: {bus_df.shape[0]} records")
         
+        """
         # Process ridership data
         ridership_monthly = None
         if ridership_df is not None:
@@ -262,6 +302,7 @@ class MTAHistoricalProcessor:
             if ridership_monthly is not None:
                 monthly_datasets.append(ridership_monthly)
                 print(f"   Added ridership monthly agg: {ridership_monthly.shape[0]} records")
+        """
         
         # Combine monthly datasets
         monthly_master = None
@@ -396,12 +437,12 @@ def main():
     # File paths - updated as requested
     subway_file = "data/raw/mta_subway_metrics_20250829.csv"
     bus_file = "data/raw/mta_bus_metrics_20250829.csv"
-    ridership_file = "data/raw/mta_daily_ridership_20250829.csv"
+    #ridership_file = "data/raw/mta_daily_ridership_20250829.csv"
     
     # Load datasets
     subway_df = None
     bus_df = None
-    ridership_df = None
+    #ridership_df = None
     
     # Try to load each dataset
     if os.path.exists(subway_file):
@@ -414,19 +455,22 @@ def main():
     else:
         print(f"⚠️  Bus metrics file not found: {bus_file}")
     
+
+    """
     if os.path.exists(ridership_file):
         ridership_df = processor.load_daily_ridership(ridership_file)
     else:
         print(f"⚠️  Daily ridership file not found: {ridership_file}")
+    """
     
-    # Check if we have any data
-    if all(df is None for df in [subway_df, bus_df, ridership_df]):
+    # Check if we have any data: add ridership_df if using ridership data
+    if all(df is None for df in [subway_df, bus_df]):
         print("❌ No datasets could be loaded. Please check file paths.")
         return None, None
     
     # Process and combine data
     monthly_master, daily_master = processor.create_master_dataset(
-        subway_df, bus_df, ridership_df
+        subway_df, bus_df, #ridership_df
     )
     
     if monthly_master is not None:

@@ -2,7 +2,7 @@
 NOAA Weather Data Collector for NYC Transit Analysis
 
 Downloads historical weather data from NOAA API for NYC area
-Processes data to match MTA dataset timeframes (2020-2025)
+Processes data to match MTA dataset timeframes (2022-2024)
 """
 
 import requests
@@ -32,8 +32,8 @@ class NOAAWeatherCollector:
             'CENTRAL_PARK': 'GHCND:USW00094728',      # Central Park
             'JFK_AIRPORT': 'GHCND:USW00094789',       # JFK Airport
             'LAGUARDIA': 'GHCND:USW00014732',         # LaGuardia
-            'BROOKLYN': 'GHCND:USW00094741',          # Brooklyn
-            'STATEN_ISLAND': 'GHCND:USW00094745'      # Staten Island
+            #'BROOKLYN': 'GHCND:US1NYKN0059',          # Brooklyn has two NOAA stations which overlap in their dataa collection for the desired time range. Need to fix later.
+            #'STATEN_ISLAND': 'GHCND:USW00094745'      # Staten Island
         }
         
         # Weather variables we want
@@ -73,7 +73,7 @@ class NOAAWeatherCollector:
             except Exception as e:
                 print(f"❌ Error getting station info for {name}: {e}")
             
-            time.sleep(0.2)  # Rate limiting
+            time.sleep(1)  # Rate limiting
     
     def fetch_weather_data(self, start_date, end_date, station='CENTRAL_PARK'):
         """
@@ -217,7 +217,7 @@ class NOAAWeatherCollector:
         
         return df_pivot
     
-    def collect_historical_weather(self, start_year=2020, end_year=2025, station='CENTRAL_PARK'):
+    def collect_historical_weather(self, start_year=2022, end_year=2024, station='CENTRAL_PARK'):
         """
         Collect weather data for multiple years
         
@@ -349,11 +349,11 @@ def main():
     print("🌡️  Available NYC Weather Stations:")
     collector.get_station_info()
     
-    # Collect historical data (2020-2025)
+    # Collect historical data (2022-2024)
     print(f"\n🌦️  Collecting historical weather data...")
     daily_weather = collector.collect_historical_weather(
-        start_year=2020, 
-        end_year=2025,
+        start_year=2022, 
+        end_year=2024,
         station='CENTRAL_PARK'  # Change this if you prefer a different station
     )
     
