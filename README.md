@@ -22,6 +22,20 @@ pip install -r requirements.txt
 
 ## Project Tracker:
 
+#### September 2, 2025
+
+- Decided to begin with historical data, monthly aggregates from 2022 until 2024.
+- MTA data is accessible [via NY's data site](https://data.ny.gov/) and weather data from [NOAA](https://www.ncdc.noaa.gov/cdo-web/search).
+- Initial analysis is in the 20250902 .ipynb file.
+- There is an issue with the weather data - max temperature is only recorded at 48 degrees Farenheit.
+
+**Next steps**
+
+- Review code, especially historical_weather_collector.py
+- Rerun analysis.
+- Clean up code as suggested in the issues page.
+
+
 #### August 8, 2025
 
 **Completed:**
@@ -29,41 +43,3 @@ pip install -r requirements.txt
 - Initiated Github repo
 - Created Conda environment
 - Set up and tested relevant APIs (MTA Live Bus Data, Open Weather, Google Maps, NYC Open Data)
-
-
-**Next steps:**
-
-[ ] Build MTA real-time bus and train position collector
-
-[ ] Create historical delay data scrapper
-
-[ ] Set up weather data collection pipeline
-
-[ ] Implement traffic data ingestion (NYC DOT, Google Maps)
-
-[ ] Create holiday/event data collection
-
-[ ] Build data validation checks
-
-[ ] Initial analysis of delay patterns by time/route/weather
-
-[ ] Create summary statistics and distributions
-
-[ ] Build initial visualizations (delay heatmaps, time series)
-
-[ ] Identify data gaps and anomalies
-
-
-**Later:**
-
-[ ] Clean data
-
-[ ] Naive baseline and finer-tuned models
-
-[ ] Model validation
-
-[ ] Visualization
-
-**Maybe?**
-
-[ ] Live web application?
